@@ -70,18 +70,18 @@ class poly:
         return self.l
     
     def ListeToStr(self):#Transforme la liste en format str
-        polynome = ""
-        for i in self.l:
-            if(i != self.l[0] and i[0][0] != "-" and i[0][0] != "+"):
-                i[0] = "+" + i[0]
-            if(i[-1] == "0"):
-                polynome += i[0]
-            elif(i[-1] == "1"):
-                polynome += i[0] + i[1]
-            else:
-                polynome += i[0] + i[1] + "^" + i[2]
-        self.s = polynome
-        return self.s
+        polynome = ""#créer un str
+        for i in self.l:#pour tous les elements de la liste
+            if(i != self.l[0] and i[0][0] != "-" and i[0][0] != "+"):#vérifier si commence pas par un charactère spécial
+                i[0] = "+" + i[0]#ajouter un + si rien avant un element
+            if(i[-1] == "0"):# si element x puissance 0
+                polynome += i[0] # ajoute un réel sans inconnu si puissance 0
+            elif(i[-1] == "1"): # si la puissance de x est de 1
+                polynome += i[0] + i[1] # ajouter le nombre plus un x sans puissance
+            else: # si puissance de x > 1
+                polynome += i[0] + i[1] + "^" + i[2] # ajoute le nombre plus x puissance
+        self.s = polynome # ecrit le str pour string de la class
+        return self.s # renvoie le str
     
     def derive(self):#trouve la dérivé du polynome 
         derive = []#crée une liste vide 
@@ -112,20 +112,21 @@ class poly:
         return phrase
     
     def racines(self):#trouve les racines du polynome simplifier
-        end = "Ce polynome a pour racines : "
-        racines = self.findRoots()
-        for i in racines:
-            end = end + str(i) + " , "
-        return end[:-3]
+        end = "Ce polynome a pour racines : " # str final
+        racines = self.findRoots() # appelle la fonction find roots et stoque dans racine
+        for i in racines: # pour toutes les racines
+            end = end + str(i) + " , " # ecrire le str final avec les racines
+        return end[:-3] # envoyer le str finale
         
     def findRoots(self):#trouve les racines
-        coefficients = [int(i[0]) for i in self.l]
-        racines = np.roots(coefficients)
-        return racines
+        coefficients = [int(i[0]) for i in self.l] # ecrire les differents coefficients depuis la liste du polynome
+        racines = np.roots(coefficients) # trouve les racines
+        return racines #renvoie les racines
     
-p = poly("2x^2+24x+12")
+p = poly("2x^2-3x-2")
 print(p)
 print(p.derive())
 print(p.racines())
 print(p.seconde())
+print(p.derive().derive())
 p.normalAffiche()
